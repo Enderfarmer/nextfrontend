@@ -1,0 +1,14 @@
+table tr,
+table td {
+    padding: 10px;
+}
+.heading {
+    font-size: large;
+    font-weight: 500;
+}
+div.menu {
+    display: none;
+}
+div.menu:target {
+    display: block;
+}
