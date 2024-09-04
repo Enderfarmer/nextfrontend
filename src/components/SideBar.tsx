@@ -1,10 +1,8 @@
-import { NextPage } from "next";
-import api from "../api";
+import { Menu } from "@/types";
 
-const SideBar: NextPage = async ({}) => {
-    const results = await api.get("menus/");
+const SideBar = async ({ menus }: { menus: Array<Menu> }) => {
     let menu_links = [];
-    for (let result of results.data) {
+    for (let result of menus) {
         menu_links.push(
             <a
                 href={`#menu-${result.id}`}
