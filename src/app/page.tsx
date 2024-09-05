@@ -1,3 +1,4 @@
+"use client";
 import "@/styles/Home.css";
 import api from "@/api";
 import SideBar from "@/components/SideBar";
@@ -25,7 +26,12 @@ function Meal({
 }
 
 export default async function Home() {
-    const response = await api.get("menus/");
+    const response = await api.get("menus/", {
+        headers: {
+            Authorization:
+                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1NTUzOTIxLCJpYXQiOjE3MjU1NDY3MjEsImp0aSI6IjRkYTEwMTE1MjRlNzRmN2M4M2Q1ODkyZDFiM2ViMzUyIiwidXNlcl9pZCI6Mn0.cKgiW7kvOGru3mumS_kITrrmO7gWK6HKprDbypmnRuw",
+        },
+    });
     const results: Array<Menu> = response.data;
 
     return (
