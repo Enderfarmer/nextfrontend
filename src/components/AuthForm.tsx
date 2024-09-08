@@ -1,5 +1,3 @@
-import { HTTPMethods } from "@/types";
-
 const AuthForm = function (
     { action }: { action: string },
     { method }: { method: string }
