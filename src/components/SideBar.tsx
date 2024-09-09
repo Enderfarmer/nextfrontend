@@ -29,7 +29,12 @@ const SideBar = ({
     return (
         <nav className="w-1/6 bg-slate-300 p-2">
             <div className="border-b-2 border-blue-950 h-10 mb-4">
-                <span className="rounded-full"></span>
+                Your Menus
+                <button className="ml-2 rounded-full border border-slate-400 p-2 active:bg-slate-400 active:text-emerald-300 text-emerald-500">
+                    <i>
+                        <FaPlus />
+                    </i>
+                </button>
             </div>
             {menu_links.length != 0
                 ? menu_links
