@@ -1,13 +1,20 @@
-import { redirect } from "next/navigation";
+"use client";
 import LoggedInOnly from "@/LoggedInOnly";
+import { useRouter } from "next/router";
 
-const Logout = ({}) => {
+const Actions = () => {
+    "use client";
+    const router = useRouter();
     localStorage.removeItem("access-token");
     localStorage.removeItem("refresh-token");
-    redirect("/");
+    router.push("/");
+    return <div></div>;
 };
-export default (
-    <LoggedInOnly>
-        <Logout />
-    </LoggedInOnly>
-);
+const Logout = () => {
+    return (
+        <LoggedInOnly>
+            <Actions />
+        </LoggedInOnly>
+    );
+};
+export default Logout;
