@@ -1,11 +1,12 @@
 import { Menu } from "@/types";
-import { FaPlus } from "react-icons/fa";
+import Link from "next/link";
+import { BiFoodMenu } from "react-icons/bi";
+import { FaPlus, FaPencilAlt } from "react-icons/fa";
 const SideBar = ({
     menus = null,
 }: {
     menus: Array<Menu> | undefined | null;
 }) => {
-    console.log(menus);
     let menu_links = [];
     if (menus) {
         for (let result of menus) {
@@ -15,13 +16,9 @@ const SideBar = ({
                     className="text-cyan-800 flex items-center ml-3 shadow-sm shadow-blue-200"
                     key={result.id}
                 >
-                    <img
-                        src="https://icons.iconarchive.com/icons/icons8/ios7/48/Food-Cutlery-icon.png"
-                        alt=""
-                        className="my-3"
-                        width={30}
-                    />
+                    <BiFoodMenu width={30} />
                     {result.name}
+                    <FaPencilAlt />
                 </a>
             );
         }
@@ -29,7 +26,14 @@ const SideBar = ({
     return (
         <nav className="w-1/6 bg-slate-300 p-2">
             <div className="border-b-2 border-blue-950 h-10 mb-4">
-                <span className="rounded-full"></span>
+                Your Menus
+                <Link href={"/login/"}>
+                    <button className="ml-2 rounded-full border border-slate-400 p-2 active:bg-slate-400 active:text-emerald-300 text-emerald-500">
+                        <i>
+                            <FaPlus />
+                        </i>
+                    </button>
+                </Link>
             </div>
             {menu_links.length != 0
                 ? menu_links
