@@ -2,8 +2,8 @@
 import api from "@/api";
 import "./globals.css";
 import { useEffect, useState } from "react";
-import Meal from "@/app/Meal";
-import SideBar from "@/components/SideBar";
+import Meal from "../src/components/Meal";
+import SideBar from "../src/components/SideBar";
 
 export default function Home() {
     // Step 1: Retrieve the item from localStorage
@@ -12,13 +12,12 @@ export default function Home() {
     const [error, setError] = useState(null);
     useEffect(() => {
         try {
-            api.get("menus/", {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem(
-                        "access-token"
-                    )}`,
-                },
-            })
+            api.authget(
+                "menus/",
+                {},
+                localStorage.getItem("access-token"),
+                localStorage.getItem("refresh-token")
+            )
                 .then((res) => res.data)
                 .then((data) => {
                     setData(data);
@@ -34,7 +33,6 @@ export default function Home() {
 
     if (isLoading) return <p>Loading...</p>;
     if (error) return <p>An error occured!</p>;
-    console.log(data);
     return (
         <main className="flex w-full">
             <div className="w-5/6 p-4">
