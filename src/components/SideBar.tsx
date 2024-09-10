@@ -1,6 +1,6 @@
 import { Menu } from "@/types";
 import Link from "next/link";
-import { BiFoodMenu } from "react-icons/bi";
+import { BiFoodMenu, BiLogOut } from "react-icons/bi";
 import { FaPlus, FaPencilAlt } from "react-icons/fa";
 const SideBar = ({
     menus = null,
@@ -24,10 +24,10 @@ const SideBar = ({
         }
     }
     return (
-        <nav className="w-1/6 bg-slate-300 p-2">
+        <nav className="w-1/6 bg-slate-300 p-2 relative">
             <div className="border-b-2 border-blue-950 h-10 mb-4">
                 Your Menus
-                <Link href={"/login/"}>
+                <Link href={"/create/"}>
                     <button className="ml-2 rounded-full border border-slate-400 p-2 active:bg-slate-400 active:text-emerald-300 text-emerald-500">
                         <i>
                             <FaPlus />
@@ -38,6 +38,11 @@ const SideBar = ({
             {menu_links.length != 0
                 ? menu_links
                 : "You haven't created any menus."}
+            <div className="border-t-2 border-blue-950 bottom-0 absolute p-4 w-11/12">
+                <Link href={"/logout/"}>
+                    <BiLogOut className="inline" /> Log out
+                </Link>
+            </div>
         </nav>
     );
 };
