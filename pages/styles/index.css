@@ -1,6 +1,11 @@
 table {
     width: 100%;
+    font-size: large;
     * {
         width: 100%;
+        @apply p-2;
+    }
+    thead * {
+        @apply font-bold;
     }
 }
