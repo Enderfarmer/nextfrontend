@@ -4,6 +4,7 @@ import "./globals.css";
 import { useEffect, useState } from "react";
 import Meal from "../src/components/Meal";
 import SideBar from "../src/components/SideBar";
+import "./styles/index.css";
 
 export default function Home() {
     // Step 1: Retrieve the item from localStorage
@@ -41,7 +42,7 @@ export default function Home() {
                           <div
                               id={`menu-${menu.id}`}
                               key={menu.id}
-                              className="menu"
+                              className="menu w-4/6"
                           >
                               <table>
                                   <thead>
