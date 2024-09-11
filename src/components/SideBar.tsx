@@ -11,15 +11,22 @@ const SideBar = ({
     if (menus) {
         for (let result of menus) {
             menu_links.push(
-                <a
-                    href={`#menu-${result.id}`}
-                    className="text-cyan-800 flex items-center ml-3 shadow-sm shadow-blue-200"
-                    key={result.id}
-                >
-                    <BiFoodMenu width={30} />
-                    {result.name}
-                    <FaPencilAlt />
-                </a>
+                <div className="flex text-center items-center" key={result.id}>
+                    <BiFoodMenu className="w-7 text-black" width={30} />
+                    <a
+                        href={`#menu-${result.id}`}
+                        className="text-cyan-800 flex items-center ml-3 shadow-sm shadow-blue-200"
+                        key={result.id}
+                    >
+                        {result.name}
+                    </a>
+                    <Link href={`/edit/${result.id}`}>
+                        <FaPencilAlt
+                            className="w-7 text-black hover:text-blue-950"
+                            width={30}
+                        />
+                    </Link>
+                </div>
             );
         }
     }
