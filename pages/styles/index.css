@@ -1,0 +1,23 @@
+.authenticated {
+    display: flex;
+    div.menu {
+        display: none;
+        &:target {
+            display: block;
+        }
+    }
+    table {
+        width: 100%;
+        font-size: large;
+        * {
+            width: 100%;
+            @apply p-2;
+        }
+        thead * {
+            @apply font-bold;
+        }
+    }
+}
+.not-authenticated {
+    font-size: large;
+}
