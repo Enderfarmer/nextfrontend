@@ -1,40 +1,46 @@
 "use client";
-import api from "../src/api";
+import api, { NotAuthenticated } from "../src/api";
 import "./globals.css";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Meal from "../src/components/Meal";
 import SideBar from "../src/components/SideBar";
 import "./styles/index.css";
 
 export default function Home() {
-    const [data, setData] = useState([]);
+    let [data, setData] = useState([]);
     const [isLoading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
+    const [authenticated, setAuthenticated] = useState(false);
+    const router = useRouter();
     useEffect(() => {
         // Check if user is authenticated by looking for tokens
         const accessToken = localStorage.getItem("access-token");
         if (accessToken) {
             const refreshToken = localStorage.getItem("refresh-token");
             setLoading(true);
+            console.log(localStorage.getItem("access-token"));
 
-            api.authget("menus/", {}, accessToken, refreshToken)
-                .then((res) => {
-                    setData(res.data);
-                })
-                .catch((err) => {
-                    console.error(err);
+            try {
+                api.authget("menus/", {}, accessToken, refreshToken)
+                    .then((res) => {
+                        setData(res.data);
+                        setAuthenticated(true);
+                    })
+                    .catch((err) => {
+                        console.error(err);
 
-                    setError(err.message);
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
+                        setError(err.message);
+                    })
+                    .finally(() => {
+                        setLoading(false);
+                    });
+            } catch (NotAuthenticated) {}
         } else {
             setLoading(false);
         }
     }, []);
-
+    console.log(data, authenticated);
     if (isLoading) {
         return <p>Loading...</p>;
     }
@@ -44,7 +50,7 @@ export default function Home() {
         return <p>An error occurred: {error}</p>;
     }
 
-    if (data.length === 0) {
+    if (!authenticated) {
         return (
             <main className="not-authenticated">
                 Our menu management website! Manage your foods and get better
@@ -53,50 +59,43 @@ export default function Home() {
             </main>
         );
     }
-
+    data = JSON.parse(data);
+    if (!location.href.includes("#menu-")) {
+        location.href += `/#menu-${data[0].id}`;
+    }
     return (
         <main className="authenticated">
             <div className="w-5/6 p-4">
-                {typeof data.map == "function" &&
-                    data.map((menu) => (
-                        <div
-                            id={`menu-${menu.id}`}
-                            key={menu.id}
-                            className="menu w-4/6"
-                        >
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <td className="heading">Mealtime</td>
-                                        <td className="heading">Monday</td>
-                                        <td className="heading">Tuesday</td>
-                                        <td className="heading">Wednesday</td>
-                                        <td className="heading">Thursday</td>
-                                        <td className="heading">Friday</td>
-                                        <td className="heading">Saturday</td>
-                                        <td className="heading">Sunday</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <Meal
-                                        meal="breakfast"
-                                        entries={menu.entries}
-                                    />
-                                    <Meal meal="lunch" entries={menu.entries} />
-                                    <Meal
-                                        meal="dessert"
-                                        entries={menu.entries}
-                                    />
-                                    <Meal
-                                        meal="dinner"
-                                        entries={menu.entries}
-                                    />
-                                </tbody>
-                            </table>
-                        </div>
-                    ))}
+                {data.map((menu) => (
+                    <div
+                        id={`menu-${menu.id}`}
+                        key={menu.id}
+                        className="menu w-4/6"
+                    >
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td className="heading">Mealtime</td>
+                                    <td className="heading">Monday</td>
+                                    <td className="heading">Tuesday</td>
+                                    <td className="heading">Wednesday</td>
+                                    <td className="heading">Thursday</td>
+                                    <td className="heading">Friday</td>
+                                    <td className="heading">Saturday</td>
+                                    <td className="heading">Sunday</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <Meal meal="breakfast" entries={menu.entries} />
+                                <Meal meal="lunch" entries={menu.entries} />
+                                <Meal meal="dessert" entries={menu.entries} />
+                                <Meal meal="dinner" entries={menu.entries} />
+                            </tbody>
+                        </table>
+                    </div>
+                ))}
             </div>
-            {typeof data.map == "function" && <SideBar menus={data} />}
+            {<SideBar menus={data} />}
         </main>
     );
 }

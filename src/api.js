@@ -4,12 +4,14 @@ import { jwtDecode } from "jwt-decode";
 class Api extends Axios {
     async authget(url, config, accesstoken, refresh) {
         let conf = config;
-        if (jwtDecode(accesstoken).exp < Date.now()) {
-            if (jwtDecode(refresh).exp > Date.now())
+        let accessexp = jwtDecode(accesstoken);
+        console.log(accessexp);
+        if (accessexp.exp < Date.now() / 1000) {
+            if (jwtDecode(refresh).exp > Date.now() / 1000) {
                 accesstoken = (
                     await this.post("token/refresh/", { refresh: refresh })
                 ).data.access;
-            else {
+            } else {
                 throw new NotAuthenticated();
             }
         }
@@ -19,8 +21,8 @@ class Api extends Axios {
     }
     async authpost(url, data, config, accesstoken, refresh) {
         let conf = config;
-        if (jwtDecode(accesstoken).exp < Date.now()) {
-            if (jwtDecode(refresh).exp > Date.now())
+        if (jwtDecode(accesstoken).exp < Date.now() / 1000) {
+            if (jwtDecode(refresh).exp > Date.now() / 1000)
                 accesstoken = (
                     await this.post("token/refresh/", { refresh: refresh })
                 ).data.access;
@@ -37,5 +39,5 @@ class Api extends Axios {
 let api = new Api({
     baseURL: "http://127.0.0.1:8000/api/",
 });
-class NotAuthenticated extends Error {}
+export class NotAuthenticated extends Error {}
 export default api;
