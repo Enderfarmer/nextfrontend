@@ -2,19 +2,27 @@ import { Axios } from "axios";
 import { jwtDecode } from "jwt-decode";
 
 class Api extends Axios {
-    async authget(url, config, accesstoken, refresh) {
+    async authget(url, config, locstore) {
         let conf = config;
+        let accesstoken = locstore.getItem("access-token");
+        let refreshtoken = locstore.getItem("access-token");
         let accessexp = jwtDecode(accesstoken);
-        console.log(accessexp);
         if (accessexp.exp < Date.now() / 1000) {
-            if (jwtDecode(refresh).exp > Date.now() / 1000) {
+            if (jwtDecode(refreshtoken).exp > Date.now() / 1000) {
                 accesstoken = (
-                    await this.post("token/refresh/", { refresh: refresh })
+                    await this.post(
+                        "token/refresh/",
+                        JSON.stringify({
+                            refresh: refreshtoken,
+                        }),
+                        { headers: { "Content-Type": "application/json" } }
+                    )
                 ).data.access;
             } else {
                 throw new NotAuthenticated();
             }
         }
+        locstore.setItem("access-token", accesstoken);
         if (conf.headers) conf.headers.Authorization = `Bearer ${access}`;
         else conf.headers = { Authorization: `Bearer ${accesstoken}` };
         return await this.get(url, conf);
@@ -30,8 +38,14 @@ class Api extends Axios {
                 throw new NotAuthenticated();
             }
         }
-        if (conf.headers) conf.headers.Authorization = `Bearer ${accesstoken}`;
-        else conf.headers = { Authorization: `Bearer ${accesstoken}` };
+        if (conf.headers) {
+            conf.headers.Authorization = `Bearer ${accesstoken}`;
+            conf.headers["Content-Type"] = "application/json";
+        } else
+            conf.headers = {
+                Authorization: `Bearer ${accesstoken}`,
+                "Content-Type": "application/json",
+            };
         return await this.post(url, data, conf);
     }
 }
