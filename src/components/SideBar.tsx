@@ -31,7 +31,7 @@ const SideBar = ({
         }
     }
     return (
-        <nav className="w-1/6 bg-slate-300 p-2 relative">
+        <nav className="w-1/6 bg-slate-300 p-2 relative" id="sidebar">
             <div className="border-b-2 border-blue-950 h-10 mb-4">
                 Your Menus
                 <Link href={"/create/"}>
@@ -42,9 +42,11 @@ const SideBar = ({
                     </button>
                 </Link>
             </div>
-            {menu_links.length != 0
-                ? menu_links
-                : "You haven't created any menus."}
+            <div id="menus-list">
+                {menu_links.length != 0
+                    ? menu_links
+                    : "You haven't created any menus."}
+            </div>
             <div className="border-t-2 border-blue-950 bottom-0 absolute p-4 w-11/12">
                 <Link href={"/logout/"}>
                     <BiLogOut className="inline" /> Log out
