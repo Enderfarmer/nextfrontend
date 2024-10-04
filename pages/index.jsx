@@ -15,27 +15,20 @@ export default function Home() {
     const router = useRouter();
     useEffect(() => {
         // Check if user is authenticated by looking for tokens
-        const accessToken = localStorage.getItem("access-token");
-        if (accessToken) {
-            const refreshToken = localStorage.getItem("refresh-token");
+
+        if (localStorage.getItem("access-token")) {
             setLoading(true);
-            console.log(localStorage.getItem("access-token"));
-
-            try {
-                api.authget("menus/", {}, accessToken, refreshToken)
-                    .then((res) => {
-                        setData(res.data);
-                        setAuthenticated(true);
-                    })
-                    .catch((err) => {
-                        console.error(err);
-
-                        setError(err.message);
-                    })
-                    .finally(() => {
-                        setLoading(false);
-                    });
-            } catch (NotAuthenticated) {}
+            api.authget("menus/", {}, localStorage)
+                .then((res) => {
+                    setData(res.data);
+                    setAuthenticated(true);
+                })
+                .catch((err) => {
+                    router.push("/login/");
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
         } else {
             setLoading(false);
         }
@@ -61,11 +54,12 @@ export default function Home() {
     }
     data = JSON.parse(data);
     if (!location.href.includes("#menu-")) {
-        location.href += `/#menu-${data[0].id}`;
+        open(`/#menu-${data[0].id}`);
+        close();
     }
     return (
         <main className="authenticated">
-            <div className="w-5/6 p-4">
+            <div className="w-11/12 p-4">
                 {data.map((menu) => (
                     <div
                         id={`menu-${menu.id}`}
@@ -95,7 +89,7 @@ export default function Home() {
                     </div>
                 ))}
             </div>
-            {<SideBar menus={data} />}
+            <SideBar menus={data} />
         </main>
     );
 }
