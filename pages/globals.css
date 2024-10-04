@@ -1,4 +1,4 @@
-@tailwind base;
+@tailwind base; /*type: ignore*/
 @tailwind components;
 @tailwind utilities;
 
@@ -7,4 +7,12 @@ body,
 div#__next,
 main {
     height: 100% !important;
+}
+#sidebar div#menus-list {
+    overflow-y: scroll;
+    max-height: 80%;
+}
+#sidebar {
+    position: relative;
+    right: 0px;
 }
