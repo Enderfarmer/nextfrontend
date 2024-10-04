@@ -10,7 +10,6 @@ import "./styles/index.css";
 export default function Home() {
     let [data, setData] = useState([]);
     const [isLoading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const [authenticated, setAuthenticated] = useState(false);
     const router = useRouter();
     useEffect(() => {
@@ -36,11 +35,6 @@ export default function Home() {
     console.log(data, authenticated);
     if (isLoading) {
         return <p>Loading...</p>;
-    }
-
-    if (error) {
-        console.error(error);
-        return <p>An error occurred: {error}</p>;
     }
 
     if (!authenticated) {
