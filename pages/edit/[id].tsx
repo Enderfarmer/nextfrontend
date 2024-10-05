@@ -3,8 +3,8 @@
 import api, { NotAuthenticated } from "@/api";
 import SideBar from "@/components/SideBar";
 import "../styles/edit/id.css";
+import "../styles/menu-tabs.css";
 import { Menu } from "@/types";
-import { useSearchParams } from "next/navigation";
 import "../globals.css";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -27,18 +27,26 @@ const Page = ({}) => {
                 .finally(() => {
                     setLoading(false);
                 });
-        } catch (err) {}
+        } catch (err) {
+            router.push("/login/");
+        }
     }, []);
+    let menu: Menu;
     if (loading) {
         return <div>Loading...</div>;
     }
     if (error) {
         return <div>An error occured: {error}</div>;
     }
-
+    for (let i of data as Array<Menu>) {
+        if (i.id === (router.query.id as string | number)) {
+            menu = i;
+        }
+    }
+    console.log("Data: ", data);
     return (
         <main className="flex">
-            <div className="h-full w-full">
+            <div className="h-full w-10/12">
                 <div>
                     <span>
                         <a href="#mon">Monday</a>
@@ -114,6 +122,7 @@ const Page = ({}) => {
                     </div>
                 </div>
             </div>
+            <SideBar menus={data} />
         </main>
     );
 };
