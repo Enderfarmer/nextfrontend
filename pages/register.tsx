@@ -1,13 +1,14 @@
 import AuthForm from "@/components/AuthForm";
 import api from "@/api";
 import { useRouter } from "next/router";
+import "./globals.css";
+import "./styles/edit/id.css";
 
 const Page = ({}) => {
     const router = useRouter();
-    async function act(data: FormData) {
-        "use server";
+    function act(data: FormData) {
         data.append("is_active", "true");
-        await api.post("users/", data, {
+        api.post("users/", data, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },

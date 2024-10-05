@@ -2,6 +2,7 @@
 import api from "@/api";
 import AuthForm from "@/components/AuthForm";
 import { useRouter } from "next/router";
+import "./globals.css";
 const Page = ({}) => {
     const router = useRouter();
     const handleAuth = async (data: FormData) => {
@@ -10,11 +11,7 @@ const Page = ({}) => {
         localStorage.setItem("refresh-token", JSON.parse(res.data).refresh);
         router.push("/");
     };
-    return (
-        <main>
-            <AuthForm action={handleAuth} method="POST" auth="Login" />
-        </main>
-    );
+    return <AuthForm action={handleAuth} method="POST" auth="Login" />;
 };
 
 export default Page;
