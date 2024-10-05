@@ -3,6 +3,7 @@ import api from "@/api";
 import AuthForm from "@/components/AuthForm";
 import { useRouter } from "next/router";
 import "./globals.css";
+import "./styles/float-label.css";
 const Page = ({}) => {
     const router = useRouter();
     const handleAuth = async (data: FormData) => {
