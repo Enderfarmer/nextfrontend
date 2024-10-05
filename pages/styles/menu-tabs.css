@@ -11,3 +11,6 @@
 .tabs div:target {
     display: block;
 }
+.tabs > label {
+    background: white;
+}
