@@ -8,11 +8,15 @@ div#__next,
 main {
     height: 100% !important;
 }
-#sidebar div#menus-list {
-    overflow-y: scroll;
-    max-height: 80%;
-}
+
 #sidebar {
     position: relative;
     right: 0px;
+    div#menus-list {
+        overflow-y: scroll;
+        max-height: 80%;
+        * {
+            overflow-y: initial;
+        }
+    }
 }
