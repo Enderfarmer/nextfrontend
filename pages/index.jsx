@@ -22,9 +22,7 @@ export default function Home() {
                     setData(res.data);
                     setAuthenticated(true);
                 })
-                .catch((err) => {
-                    router.push("/login/");
-                })
+                .catch((err) => {})
                 .finally(() => {
                     setLoading(false);
                 });
