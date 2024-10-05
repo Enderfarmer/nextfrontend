@@ -26,8 +26,9 @@ const AuthForm = function ({
                         name="username"
                         className="border-emerald-400 border rounded p-2 text-lg text-emerald-400"
                         spellCheck="false"
+                        autoComplete={auth == "Register" ? "off" : "username"}
                     />
-                    <label>Benutzername</label>
+                    <label className="text-emerald-500">Benutzername</label>
                 </div>
                 <br />
                 <div className="input-field">
@@ -36,8 +37,13 @@ const AuthForm = function ({
                         name="password"
                         className="border-emerald-400 border rounded p-2 text-lg text-emerald-400"
                         spellCheck="false"
+                        autoComplete={
+                            auth == "Register"
+                                ? "new-password"
+                                : "current-password"
+                        }
                     />
-                    <label>Passwort</label>
+                    <label className="text-emerald-500">Passwort</label>
                 </div>
                 <br />
                 {auth === "Register" && (
@@ -48,15 +54,18 @@ const AuthForm = function ({
                                 name="password2"
                                 className="border-emerald-400 border rounded p-2 text-lg text-emerald-400"
                                 spellCheck="false"
+                                autoComplete="off"
                             />
-                            <label>Passwort bestätigen</label>
+                            <label className="text-emerald-500">
+                                Passwort bestätigen
+                            </label>
                         </div>
                     </>
                 )}
                 <br />
                 <button
                     type="submit"
-                    className="text-emerald-300 bg-black rounded-md p-2 text-lg w-11/12"
+                    className="text-emerald-300 bg-black border-emerald-400 border-2 rounded-md p-2 text-lg w-11/12 ml-3"
                 >
                     {auth}
                 </button>
