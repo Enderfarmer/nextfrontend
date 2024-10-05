@@ -20,28 +20,37 @@ const AuthForm = function ({
                 className="px-5 flex flex-col justify-center items-center"
             >
                 <h1 className="font-extrabold p-2 text-3xl">{auth}</h1>
-                <input
-                    type="text"
-                    name="username"
-                    className="border-emerald-400 border rounded p-2 text-lg"
-                    spellCheck="false"
-                />
+                <div className="input-field">
+                    <input
+                        type="text"
+                        name="username"
+                        className="border-emerald-400 border rounded p-2 text-lg text-emerald-400"
+                        spellCheck="false"
+                    />
+                    <label>Benutzername</label>
+                </div>
                 <br />
-                <input
-                    type="password"
-                    name="password"
-                    className="border-emerald-400 border rounded p-2 text-lg"
-                    spellCheck="false"
-                />
+                <div className="input-field">
+                    <input
+                        type="password"
+                        name="password"
+                        className="border-emerald-400 border rounded p-2 text-lg text-emerald-400"
+                        spellCheck="false"
+                    />
+                    <label>Passwort</label>
+                </div>
                 <br />
                 {auth === "Register" && (
                     <>
-                        <input
-                            type="password"
-                            name="password2"
-                            className="border-emerald-400 border rounded p-2 text-lg"
-                            spellCheck="false"
-                        />
+                        <div className="input-field">
+                            <input
+                                type="password"
+                                name="password2"
+                                className="border-emerald-400 border rounded p-2 text-lg text-emerald-400"
+                                spellCheck="false"
+                            />
+                            <label>Passwort bestätigen</label>
+                        </div>
                     </>
                 )}
                 <br />
