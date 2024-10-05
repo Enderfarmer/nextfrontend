@@ -48,6 +48,31 @@ class Api extends Axios {
             };
         return await this.post(url, data, conf);
     }
+    async authdelete(url, config, locstore) {
+        let conf = config;
+        let accesstoken = locstore.getItem("access-token");
+        let refreshtoken = locstore.getItem("access-token");
+        let accessexp = jwtDecode(accesstoken);
+        if (accessexp.exp < Date.now() / 1000) {
+            if (jwtDecode(refreshtoken).exp > Date.now() / 1000) {
+                accesstoken = (
+                    await this.post(
+                        "token/refresh/",
+                        JSON.stringify({
+                            refresh: refreshtoken,
+                        }),
+                        { headers: { "Content-Type": "application/json" } }
+                    )
+                ).data.access;
+            } else {
+                throw new NotAuthenticated();
+            }
+        }
+        locstore.setItem("access-token", accesstoken);
+        if (conf.headers) conf.headers.Authorization = `Bearer ${access}`;
+        else conf.headers = { Authorization: `Bearer ${accesstoken}` };
+        return await this.delete(url, conf);
+    }
 }
 
 let api = new Api({
