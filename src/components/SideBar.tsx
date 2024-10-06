@@ -6,12 +6,13 @@ import { FaPlus, FaPencilAlt } from "react-icons/fa";
 const SideBar = ({
     menus = null,
 }: {
-    menus: Array<Menu> | undefined | null;
+    menus: Array<Menu> | string | undefined | null;
 }) => {
     let ICON_SIZE = "1.25em";
     let menu_links = [];
     if (menus) {
-        for (let result of menus) {
+        if (typeof menus == "string") menus = JSON.parse(menus);
+        for (let result of menus as Menu[]) {
             menu_links.push(
                 <div className="flex text-center items-center" key={result.id}>
                     <BiFoodMenu className="text-black" size={ICON_SIZE} />

@@ -1,9 +1,11 @@
 "use client";
 
-import api, { NotAuthenticated } from "@/api";
+import api from "@/api";
+import { FormGroup } from "react-bootstrap";
 import SideBar from "@/components/SideBar";
 import "../styles/edit/id.css";
 import "../styles/menu-tabs.css";
+import "../styles/float-label.css";
 import { Menu } from "@/types";
 import "../globals.css";
 import { useRouter } from "next/router";
@@ -11,7 +13,7 @@ import { useEffect, useState } from "react";
 
 const Page = ({}) => {
     const router = useRouter();
-    const [data, setData] = useState<null | Menu[]>(null);
+    let [data, setData] = useState<null | string | Menu[]>(null);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
 
@@ -43,7 +45,6 @@ const Page = ({}) => {
             menu = i;
         }
     }
-    console.log("Data: ", data);
     return (
         <main className="flex">
             <div className="h-full w-10/12">
@@ -72,17 +73,23 @@ const Page = ({}) => {
                 </div>
                 <div className="w-full h-60 bg-amber-600 tabs">
                     <div id="mon">
-                        <div className="input-field">
+                        <FormGroup className="input-field">
                             <input type="text" className="breakfast" />
 
                             <label>Frühstück</label>
-                        </div>
-                        <div className="form-group input-field">
+                        </FormGroup>
+                        <FormGroup className="input-field">
                             <input type="text" className="lunch" />
                             <label>Mittagessen</label>
-                        </div>
-                        <input type="text" className="dessert" />
-                        <input type="text" className="dinner" />
+                        </FormGroup>
+                        <FormGroup className="input-field">
+                            <input type="text" className="dessert" />
+                            <label>Dessert</label>
+                        </FormGroup>
+                        <FormGroup className="input-field">
+                            <input type="text" className="dinner" />
+                            <label>Abendessen</label>
+                        </FormGroup>
                     </div>
                     <div id="tue">
                         <input type="text" className="breakfast" />
